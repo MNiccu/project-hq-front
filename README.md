@@ -2,6 +2,9 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+# Installation
+This project uses Nodejs version 16.13.0. We recommend using nvm for local version management.
+
 ## Available Scripts
 
 In the project directory, you can run:
