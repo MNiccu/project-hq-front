@@ -1,25 +1,34 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Navigation from './components/Navigation';
+import Login from "./components/Login"
+import Game from './components/Game';
+import 'bootstrap/dist/css/bootstrap.css'
+import {useState, useEffect} from "react"
+import {Context} from "./components/TestContext"
 
-function App() {
+const App = () => {
+
+  const [isLoginView, setIsLoginView] = useState(true)
+
+  const changeView = () => {
+    setIsLoginView(!isLoginView)
+}
+
   return (
+    <Context.Provider value={ {isLoginView, setIsLoginView} }>
+
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <Navigation></Navigation>
       </header>
+      <body>
+      {isLoginView ? <Login></Login> : <Game></Game>}
+        <button onClick={changeView}>swap</button>
+       
+      </body>
     </div>
+    
+    </Context.Provider>
   );
 }
 
