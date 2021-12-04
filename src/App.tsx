@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Navigation from './components/Navigation';
 import Login from "./components/Login"
 import Game from './components/Game';
@@ -14,10 +15,14 @@ const App = () => {
     setIsLoginView(!isLoginView)
 }
 
+import Lobby from "./pages/Lobby";
+
+
   return (
     <Context.Provider value={ {isLoginView, setIsLoginView} }>
 
     <div className="App">
+
       <header className="App-header">
         <Navigation></Navigation>
       </header>
@@ -26,6 +31,8 @@ const App = () => {
         <button onClick={changeView}>swap</button>
        
       </body>
+
+     <Lobby/>
     </div>
     
     </Context.Provider>
