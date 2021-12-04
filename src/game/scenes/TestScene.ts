@@ -38,5 +38,12 @@ export default class HelloWorldScene extends Phaser.Scene {
         const layer = map.createLayer(0, tiles, 0, 0);
         //this.cameras.main.setBounds(0,0, 5, 5);
         this.cameras.main.setSize(11*16, 11*16);
+
+    }
+
+    update() {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        this.cameras.main.rotation += 0.01;
     }
 }

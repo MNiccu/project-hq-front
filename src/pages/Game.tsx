@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import Phaser from 'phaser'
 import TestScene from '../game/scenes/TestScene';
 
-const Game = () => {
+const Game: React.FC<{state: boolean}> = ({state}) => {
 
     useEffect(() => {
         const config: Phaser.Types.Core.GameConfig = {
@@ -20,6 +20,7 @@ const Game = () => {
 
 
     return <div>
+        <p>State {state.toString()}</p>
         <div id="game-container"></div>
     </div>
 }
