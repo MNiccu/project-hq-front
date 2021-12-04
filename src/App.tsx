@@ -1,13 +1,41 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+
+import Navigation from './components/Navigation';
+import Login from "./components/Login"
+import Game from './components/Game';
+import 'bootstrap/dist/css/bootstrap.css'
+import {useState, useEffect} from "react"
+import {Context} from "./components/TestContext"
+
+const App = () => {
+
+  const [isLoginView, setIsLoginView] = useState(true)
+
+  const changeView = () => {
+    setIsLoginView(!isLoginView)
+}
+
 import Lobby from "./pages/Lobby";
 
-function App() {
+
   return (
+    <Context.Provider value={ {isLoginView, setIsLoginView} }>
+
     <div className="App">
+
+      <header className="App-header">
+        <Navigation></Navigation>
+      </header>
+      <body>
+      {isLoginView ? <Login></Login> : <Game></Game>}
+        <button onClick={changeView}>swap</button>
+       
+      </body>
+
      <Lobby/>
     </div>
+    
+    </Context.Provider>
   );
 }
 
