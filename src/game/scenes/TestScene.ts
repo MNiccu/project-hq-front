@@ -1,0 +1,42 @@
+import Phaser from 'phaser'
+
+enum ImageNames {
+    Sky = 'sky',
+    Logo = 'logo',
+    RedParticle = 'red_particle'
+}
+
+
+export default class HelloWorldScene extends Phaser.Scene {
+    constructor() {
+        super("hello-word");
+    }
+
+    preload() {
+        console.log("Preload");
+        this.load.image('mario-tiles', 'https://raw.githubusercontent.com/photonstorm/phaser3-examples/master/public/assets/tilemaps/tiles/super-mario.png');
+    }
+
+    create() {
+        const level = [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 1, 2, 3, 0, 0, 0, 1, 2, 3, 0],
+            [0, 5, 6, 7, 0, 0, 0, 5, 6, 7, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 14, 13, 14, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 14, 14, 14, 14, 14, 0, 0, 0, 15],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 15],
+            [35, 36, 37, 0, 0, 0, 0, 0, 15, 15, 15],
+            [39, 39, 39, 39, 39, 39, 39, 39, 39, 39, 39]
+        ]
+
+        // When loading from an array, make sure to specify the tileWidth and tileHeight
+        const map = this.make.tilemap({data: level, tileWidth: 16, tileHeight: 16});
+        const tiles = map.addTilesetImage('mario-tiles');
+        const layer = map.createLayer(0, tiles, 0, 0);
+        //this.cameras.main.setBounds(0,0, 5, 5);
+        this.cameras.main.setSize(11*16, 11*16);
+    }
+}
