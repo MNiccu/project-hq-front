@@ -8,7 +8,7 @@ interface ChatRow {
 }
 
 const ChatRows: React.FC<{rows: ChatRow[]}> = ({rows}) => {
-    return <React.Fragment>{rows.map((row) => (<div key={row.id}>{row.message}</div>))}</React.Fragment>;
+    return <React.Fragment>{rows.map((row) => (<div key={row.id}>{row.username}: {row.message}</div>))}</React.Fragment>;
 }
 
 const Chat: React.FC = () => {
@@ -17,6 +17,7 @@ const Chat: React.FC = () => {
 
     const [chatRows, setChatRows] = useState<ChatRow[]>([]);
 
+    const [aaa, setAaa] = useState<string>("undefined");
 
     useEffect(() => {
         const newConnection = new HubConnectionBuilder()
@@ -40,9 +41,18 @@ const Chat: React.FC = () => {
                 console.log('Message Received');
                 setChatRows(chatRows => ([...chatRows, {id: chatRows.length + 1, username, message}]));
             });
+            
+            connection.on('ConfirmLogin', (_ei_nain_mikko) => {
+                console.log('Message Received');
+                setAaa(aaa => _ei_nain_mikko);
+            });
+            
         });
 
     }, [connection])
+
+
+    
 
     const sendMessage = async () => {
         if(!connection) {
@@ -51,17 +61,43 @@ const Chat: React.FC = () => {
 
         console.log("Sending message");
         try {
-            await connection.send('SendMessage', {user: 'TestUser1', message: 'TestMessage'});
+            await connection.send('SendMessage', {user: aaa, message: 'TestMessage'});
             console.log("Message send");
         }catch(e){
             console.error(e);
         }
     }
 
+    const login = async () => {
+        if(!connection) {
+            return;
+        }
+        try {
+            await connection.send('Login', 'TestUser1');
+            console.log("username send")
+        } catch(e){
+            console.error(e)
+        }
+    }
+
+    const checkLogin = async () => {
+        if(!connection) {
+            return;
+        }
+        try {
+            await connection.send('CheckLogin');
+            console.log("confirmation request")
+        } catch(e){
+            console.error(e)
+        }
+    }
 
     return <div>
         <button onClick={sendMessage}>Send message</button>
+        <button onClick={login}>Login</button>
+        <button onClick={checkLogin}>Check login</button>
         <ChatRows rows={chatRows}></ChatRows>
+        <h2 >you are: {aaa}</h2>
 
     </div>;
 }
