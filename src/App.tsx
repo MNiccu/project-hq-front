@@ -28,8 +28,7 @@ const App = () => {
       </header>
       <body>
       {isLoginView ? <Login></Login> : <Game></Game>}
-        <button onClick={changeView}>swap</button>
-       
+        <button onClick={changeView}>swap</button> 
       </body>
 
      <Lobby/>

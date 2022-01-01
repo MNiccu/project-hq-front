@@ -17,7 +17,7 @@ const Chat: React.FC = () => {
 
     const [chatRows, setChatRows] = useState<ChatRow[]>([]);
 
-    const [aaa, setAaa] = useState<string>("undefined");
+    const [userName, setUserName] = useState<string>("undefined");
 
     useEffect(() => {
         const newConnection = new HubConnectionBuilder()
@@ -42,9 +42,9 @@ const Chat: React.FC = () => {
                 setChatRows(chatRows => ([...chatRows, {id: chatRows.length + 1, username, message}]));
             });
             
-            connection.on('ConfirmLogin', (_ei_nain_mikko) => {
+            connection.on('ConfirmLogin', (username) => {
                 console.log('Message Received');
-                setAaa(aaa => _ei_nain_mikko);
+                setUserName(userName => username);
             });
             
         });
@@ -61,7 +61,7 @@ const Chat: React.FC = () => {
 
         console.log("Sending message");
         try {
-            await connection.send('SendMessage', {user: aaa, message: 'TestMessage'});
+            await connection.send('SendMessage', {user: userName, message: 'TestMessage'});
             console.log("Message send");
         }catch(e){
             console.error(e);
@@ -92,12 +92,39 @@ const Chat: React.FC = () => {
         }
     }
 
+    const joinGroup = async () => {
+        if(!connection) {
+            return;
+        }
+        try {
+            await connection.send('JoinGroup', 'TestGroup1');
+            
+        } catch(e){
+            console.error(e)
+        }
+    }
+
+    const messageGroup = async () => {
+        if(!connection) {
+            return;
+        }
+        console.log("Sending group message");
+        try {
+            await connection.send('SendMessageToGroup', 'TestGroup1', {user: userName, message: 'TestMessage to group'});
+            console.log("group Message send");
+        }catch(e){
+            console.error(e);
+        }
+    }
+
     return <div>
         <button onClick={sendMessage}>Send message</button>
         <button onClick={login}>Login</button>
         <button onClick={checkLogin}>Check login</button>
+        <button onClick={joinGroup}>Join Group</button>
+        <button onClick={messageGroup}>send msg to group</button>
         <ChatRows rows={chatRows}></ChatRows>
-        <h2 >you are: {aaa}</h2>
+        <h2 >you are: {userName}</h2>
 
     </div>;
 }
